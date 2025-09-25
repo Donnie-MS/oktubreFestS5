@@ -1,6 +1,7 @@
 package ar.edu.unahur.obj2.marcas;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ar.edu.unahur.obj2.marcas.TiposDeCerveza.Marca;
 
@@ -23,18 +24,25 @@ public class Persona {
     }
 
     public Double alcoholIngerido() {
-        return 1.0;
+        if (jarrasCompradas == null) {
+            return 0.0;
+        }
+        return jarrasCompradas.stream()
+                    .mapToDouble(jarra -> jarra.litrosDeAlcohol())
+                    .sum();
     }
 
-    public List<Marca> marcasFavoritas() {
-
+    public List<Marca> marcasFavoritas(List<Marca> todasLasMarcas) {
+        return todasLasMarcas.stream()
+                .filter(unaMarca -> this.leGustaLaCerveza(unaMarca))  
+                .collect(Collectors.toList());      
     }
 
     public Boolean leGustaLaCerveza(Marca tipoDeCerveza) { 
         return switch (nacionalidad.getNombre()) {
             case "Belgica" -> tipoDeCerveza.getLupuloGr() > 4;
             case "Republica Checa" -> tipoDeCerveza.getGraduacion() > 8;
-            default -> true;
-        }
+            default -> Boolean.TRUE;
+        };
     }
 }
