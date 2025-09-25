@@ -1,4 +1,6 @@
-package ar.edu.unahur.obj2.marcas;
+package ar.edu.unahur.obj2.marcas.TiposDeCerveza;
+
+import ar.edu.unahur.obj2.marcas.Pais;
 
 public class CervezaRubia extends Marca{
     private Double graduacion;
