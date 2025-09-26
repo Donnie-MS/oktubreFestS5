@@ -38,6 +38,32 @@ public class Persona {
                 .collect(Collectors.toList());      
     }
 
+    public Boolean quiereEntrarA(CarpaCervecera unaCarpa) {
+        return this.leGustaLaCerveza(unaCarpa.getMarca()) && this.leGustaLaMusicaDe(unaCarpa)
+            &&  this.evaluarSegunNacionalidad(unaCarpa);
+    }
+
+    public void ingresarA(CarpaCervecera unaCarpa) {
+        if (this.puedeEntrarA(unaCarpa)) {
+            unaCarpa.entrar(this);
+        }
+    }
+
+    public Boolean puedeEntrarA(CarpaCervecera unaCarpa) {
+        return quiereEntrarA(unaCarpa) && unaCarpa.puedeIngresar(this);
+    }
+
+    private Boolean evaluarSegunNacionalidad(CarpaCervecera unaCarpa) {
+        return switch(nacionalidad.getNombre()) {
+            case "Alemania" -> unaCarpa.cantPersonasDentro() % 2 == 0;
+            default -> Boolean.TRUE;
+        };
+    }
+
+    private Boolean leGustaLaMusicaDe(CarpaCervecera unaCarpa) {
+        return this.leGustaMusicaTradicional && unaCarpa.tieneBandaTradicional();
+    }
+
     public Boolean leGustaLaCerveza(Marca tipoDeCerveza) { 
         return switch (nacionalidad.getNombre()) {
             case "Belgica" -> tipoDeCerveza.getLupuloGr() > 4;
